@@ -1,8 +1,8 @@
 import json
-import re
 import click
 import bibtexparser
 from tqdm import tqdm
+import gzip
 from pathlib import Path
 
 import bibtexparser
@@ -25,17 +25,30 @@ def load_bib_data():
     return bib_data
 
 
-def export_to_json(bib, path):
-    with open(path, 'w') as outfile:
-        json.dump(bib.entries, outfile)
+def export_to_file(bib, path):
+    with gzip.open(path.with_suffix(".gz"), 'wb') as fout:
+        fout.write(json.dumps(bib.entries).encode("utf-8"))
 
-def import_from_json(path):
-    with open(path, 'r') as json_file:
-        entries = json.load(json_file)
+def unzip_file(path):
+    with gzip.open(path.with_suffix(".gz"), 'r') as fin:
+        data = json.loads(fin.read().decode('utf-8'))
+    with open(path, "w") as fout:
+        json.dump(data, fout)
 
-    db = BibDatabase()
-    db.entries = entries
-    return db
+
+def import_from_file(path):
+
+    if not path.exists() and (path.with_suffix(".gz")).exists():
+        unzip_file(path)
+
+    if path.exists():
+        with open(path, 'r') as fin:
+            entries = json.load(fin)
+        db = BibDatabase()
+        db.entries = entries
+        return db
+    else:
+        raise FileNotFoundError()
 
 
 @click.group()
@@ -49,7 +62,8 @@ def export(output):
     Path(output).parent.mkdir(exist_ok=True, parents=True)
 
     db = load_bib_data()
-    export_to_json(db, output)
+    export_to_file(db, output)
+
 
 if __name__ == "__main__":
     cli()
