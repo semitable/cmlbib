@@ -31,15 +31,22 @@ def export_to_file(bib, path):
         fout.write(json.dumps(bib.entries).encode("utf-8"))
 
 def unzip_file(path):
+    click.echo(f"Decompressing data to {path}")
+
     with gzip.open(path.with_suffix(".gz"), 'r') as fin:
         data = json.loads(fin.read().decode('utf-8'))
     with open(path, "w") as fout:
         json.dump(data, fout)
 
 
-def import_from_file(path):
+def load_aggregated_data(path = Path(__file__).absolute().parents[1] / "build" / "aggregate.json", overwrite_latest = False):
 
-    if not path.exists() and (path.with_suffix(".gz")).exists():
+    Path(path).parent.mkdir(exist_ok=True, parents=True)
+
+    if overwrite_latest or (not path.exists() and not path.with_suffix(".gz").exists()):
+        download_latest()
+
+    if overwrite_latest or (not path.exists() and (path.with_suffix(".gz")).exists()):
         unzip_file(path)
 
     if path.exists():
@@ -54,6 +61,9 @@ def import_from_file(path):
 def download_latest():
     url = "https://github.com/semitable/cmlbib/releases/latest/download/aggregate.gz"
     path = Path(__file__).absolute().parents[1] / "build" / "aggregate.gz"
+    
+    click.echo(f"Downloading compressed bib data from {url}")
+    
     with urllib.request.urlopen(url) as response, open(path, 'wb') as out_file:
         shutil.copyfileobj(response, out_file)
 
