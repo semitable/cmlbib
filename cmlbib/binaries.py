@@ -4,7 +4,8 @@ import bibtexparser
 from tqdm import tqdm
 import gzip
 from pathlib import Path
-
+import shutil
+import urllib.request
 import bibtexparser
 from bibtexparser.bwriter import BibTexWriter
 from bibtexparser.bibdatabase import BibDatabase
@@ -50,13 +51,19 @@ def import_from_file(path):
     else:
         raise FileNotFoundError()
 
+def download_latest():
+    url = "https://github.com/semitable/cmlbib/releases/latest/download/aggregate.gz"
+    path = Path(__file__).absolute().parents[1] / "build" / "aggregate.gz"
+    with urllib.request.urlopen(url) as response, open(path, 'wb') as out_file:
+        shutil.copyfileobj(response, out_file)
+
 
 @click.group()
 def cli():
     pass
 
 @cli.command()
-@click.argument("output", type=click.Path(exists=False, dir_okay=False, writable=True, allow_dash=True), default=Path(__file__).parents[1] / "build" / "aggregate.json")
+@click.argument("output", type=click.Path(exists=False, dir_okay=False, writable=True, allow_dash=True), default=Path(__file__).absolute().parents[1] / "build" / "aggregate.json")
 def export(output):
 
     Path(output).parent.mkdir(exist_ok=True, parents=True)
