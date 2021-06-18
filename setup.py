@@ -9,7 +9,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'sanitize-bib = cmlbib.cmlbib:process',
+            'cmlbib-sanitize = cmlbib:cli',
+            'cmlbib-export = cmlbib:export',
         ],
     },
 )
