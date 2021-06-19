@@ -57,7 +57,7 @@ def cli(input, output, replace, abstract):
             if ltitle == db_title:
                 update_entry(entry, dbentry, replace)
 
-    inputdb = cleanup_entries(inputdb)
+    inputdb = cleanup_entries(inputdb, abstract)
         
     # print(inputdb.entries[0])
     writer = BibTexWriter()
