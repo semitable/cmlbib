@@ -5,7 +5,9 @@ setup(
     version='0.1.0',
     py_modules=['cmlbib'],
     install_requires=[
-        'Click',
+        'Click==8.*',
+        'bibtexparser==1.2.0',
+        'tqdm==4.*'
     ],
     entry_points={
         'console_scripts': [
