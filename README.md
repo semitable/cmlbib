@@ -8,7 +8,7 @@ CMLBIB attempts to solve this by
 
 # Installation
 
-CMLBIB is in PyPI. You can install it using
+CMLBIB uses Python 3 and is in PyPI. You can install it using
 ```sh
 pip install cmlbib
 ```
@@ -57,4 +57,5 @@ We welcome contributions, especially new conferences and .bib files. Add files t
 **However** - CMLBIB prefers not having an entry to having it *wrong*. Prefer collecting data from the Proceedings (e.g. http://proceedings.mlr.press/v119/ - click first bib link) and make a reasonable attempt at curating it by making sure entries are similar to the above. You can also use DBLP *but* make sure to clear it up since it tends to add addresses/dates to the booktitle entry.
 
 You can run the included tests to check they are similar to the above using `pytest`.
+
 
