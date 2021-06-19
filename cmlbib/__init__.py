@@ -1,2 +1,2 @@
 from .binaries import export
-from .cmlbib import cli
+from .parser import cli
