@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='cmlbib',
-    version='0.1.1',
-    py_modules=['cmlbib'],
+    version='0.1.2',
+    packages=['cmlbib'],
     install_requires=[
         'Click==8.*',
         'bibtexparser==1.2.0',
