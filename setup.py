@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='cmlbib',
-    version='0.1.0',
+    version='0.1.1',
     py_modules=['cmlbib'],
     install_requires=[
         'Click==8.*',
