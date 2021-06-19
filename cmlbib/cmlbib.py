@@ -21,11 +21,20 @@ def update_entry(base, new, replace):
             if key not in new and key != "ID":
                 base.pop(key, None)
 
+
+def cleanup_entries(db, abstract):
+    for entry in db.entries:
+        if not abstract:
+            entry.pop("abstract", None)
+    
+    return db
+
 @click.command()
 @click.argument("input", type=click.Path(exists=True, dir_okay=False, writable=False))
 @click.argument("output", type=click.Path(exists=False, dir_okay=False, writable=True, allow_dash=True))
 @click.option("--replace/--no-replace", help="Fully replaces any matched bibliography entries.", default=True)
-def cli(input, output, replace):
+@click.option("--abstract/--no-abstract", help="Keeps or removes the abstract.", default=False)
+def cli(input, output, replace, abstract):
 
     if Path(output).is_file():
         click.confirm("Output file already exists. Proceeding will OVERWRITE this file. Continue?", abort=True)
@@ -48,6 +57,8 @@ def cli(input, output, replace):
             if ltitle == db_title:
                 update_entry(entry, dbentry, replace)
 
+    inputdb = cleanup_entries(inputdb)
+        
     # print(inputdb.entries[0])
     writer = BibTexWriter()
     writer.indent = '    '
