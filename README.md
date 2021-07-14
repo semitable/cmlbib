@@ -1,6 +1,6 @@
 # CMLBIB: Curated ML .bib for LaTeX
 
-Is your bibliography inconsistent? Does it include the year or month in one entry but not in others? Are some entries all-caps and others in Title Case? ... Does it list enties as ArXiv pre-preprints while they are published in conferences?
+Is your bibliography inconsistent? Does it include the year or month in one entry but not in others? Are some entries all-caps and others in Title Case? ... Does it list entries as ArXiv pre-preprints while they are published in conferences?
 
 CMLBIB attempts to solve this by 
 1. maintaining curated .bib entries for papers in top ML conferences 
